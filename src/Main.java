@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        String[] operationsArr = {"Добавить", "Показать", "Удалить"};
+        String[] operationsArr = {"Добавить", "Показать", "Удалить", "Найти"};
         List<String> operations = new ArrayList<>(Arrays.asList(operationsArr)); //список доступных операций
         List<String> purchases = new LinkedList<>(); //список покупок
         Scanner scan = new Scanner(System.in);
@@ -70,24 +70,33 @@ public class Main {
                         }
                         System.out.println("Покупки с таким названием не существует");
                     }
-
+                    break;
+                case 4:
+                    System.out.println("Введите текст для поиска: ");
+                    String inputToFind = scan.nextLine();
+                    for (int i = 0; i < purchases.size(); i++) {
+                        String itemLower = purchases.get(i).trim().toLowerCase();
+                        String toFindLower = inputToFind.trim().toLowerCase();
+                        if (itemLower.contains(toFindLower)) {
+                            System.out.println(i + 1 + ". " + purchases.get(i));
+                        }
+                    }
                     break;
                 default:
                     System.out.println("Нет операции с таким номером.");
             }
         }
 
-
     }
 
-    public static void purchasePrint(List purchases) {
+    public static void purchasePrint(List purchases) { // метод выводит в консоль список покупок
         System.out.println("Список покупок: ");
         for (int i = 0; i < purchases.size(); i++) {
             System.out.println(i + 1 + ". " + purchases.get(i));
         }
     }
 
-    public static String capitalize(String inputPurchase) {
+    public static String capitalize(String inputPurchase) { // метод делает первую букву покупки заглавной, остальные - строчными
         inputPurchase = inputPurchase.trim().toLowerCase();
         return Character.toUpperCase(inputPurchase.charAt(0)) + inputPurchase.substring(1);
 
