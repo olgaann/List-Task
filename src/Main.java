@@ -32,6 +32,7 @@ public class Main {
                     String inputPurchase = scan.nextLine();
                     if (!inputPurchase.trim().equals("")) {
                         purchases.add(capitalize(inputPurchase));
+                        System.out.println("Итого в списке покупок: " + purchases.size());
                     }
                     break;
                 case 2:
