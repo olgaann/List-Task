@@ -47,7 +47,7 @@ public class Main {
                     try {
                         numberToDelete = (Integer.parseInt(inputToDelete.trim()) - 1); //определяем номер покупки к удалению
                     } catch (NumberFormatException exception) {
-                        purchaseToDelete = inputToDelete;
+                        purchaseToDelete = inputToDelete; //если введена строка, то будем пытаться удалить ее
                     }
 
                     if (numberToDelete >= 0 && numberToDelete < purchases.size()) {
@@ -58,30 +58,32 @@ public class Main {
                     } else if (numberToDelete >= purchases.size() || (numberToDelete < 0 && purchaseToDelete == null)) {
                         System.out.println("Покупки с таким номером не существует");
                     } else if (purchaseToDelete != null) {
-                        purchaseToDelete = capitalize(purchaseToDelete);
-                        Iterator<String> it = purchases.iterator();
-                        while (it.hasNext()) {
-                            String currentPurchase = it.next();
-                            if (currentPurchase.equals(purchaseToDelete)) {
-                                it.remove();
-                                System.out.println("Покупка '" + purchaseToDelete + "' удалена.");
-                                purchasePrint(purchases);
-                                break;
-                            }
+                        try {
+                            purchaseToDelete = capitalize(purchaseToDelete);
+                            purchases.remove(purchases.indexOf(purchaseToDelete));
+                            System.out.println("Покупка '" + purchaseToDelete + "' удалена.");
+                            purchasePrint(purchases);
+                        } catch (IndexOutOfBoundsException exception) {
+                            System.out.println("Покупки с таким названием не существует");
                         }
-                        System.out.println("Покупки с таким названием не существует");
                     }
                     break;
                 case 4:
                     System.out.println("Введите текст для поиска: ");
                     String inputToFind = scan.nextLine();
+                    boolean flag = true;
                     for (int i = 0; i < purchases.size(); i++) {
                         String itemLower = purchases.get(i).trim().toLowerCase();
                         String toFindLower = inputToFind.trim().toLowerCase();
                         if (itemLower.contains(toFindLower)) {
                             System.out.println(i + 1 + ". " + purchases.get(i));
+                            flag = false;
                         }
                     }
+                    if(flag) {
+                        System.out.println("Таких покупок не нашлось");
+                    }
+
                     break;
                 default:
                     System.out.println("Нет операции с таким номером.");
